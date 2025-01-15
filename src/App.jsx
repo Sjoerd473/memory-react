@@ -1,40 +1,43 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-// import sprite from 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+import Board from './board.jsx'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] =useState(0);
+  const [reset, setReset] = useState(true)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  const  increaseScore = () => {
+    setScore(() => score + 1);
+    setReset(true);
+  }
+  const endRound = () =>{
+    if (score > highScore){
+      setHighScore(score)
+    }
+    setScore(0)
+    setReset(false)
+  }
+
+  return(
+    <div className='app'>
+      <div className='header-left'>
+      <h1 >Pokemon Memory</h1>
       </div>
-      <div>
-        {/* <img src={sprite} alt='' /> */}
-        <img src ='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png' />
+      <div className='header-right'>
+      <p>Current score: {score}</p>
+      <p>Highscore: {highScore}</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <Board 
+      reset={reset}
+      increaseScore={increaseScore}
+      endRound={endRound}
+       />
+    </div>
   )
+
+
 }
 
 export default App
